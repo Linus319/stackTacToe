@@ -97,7 +97,10 @@ function App() {
     setBoard(res.data.board);
     setCurrentPlayer(res.data.current_player);
     setWinner(res.data.winner);
+
   };
+
+  console.log('winner:', winner);
 
   const makeMove = async (x, y, z) => {
     if (!gameId || winner) return;
@@ -123,7 +126,7 @@ function App() {
       }}>
         <h3>StackTacToe</h3>
         <p>Backend: {backendStatus}</p>
-        {winner ? <p>🎉 Winner: {winner}</p> : <p>Current Player: {currentPlayer}</p>}
+        {winner ? <p>🎉 Winner: {winner === 'X' ? "Red" : "Blue"}</p> : <p>Current Player: {currentPlayer}</p>}
       </div>
 
       <Canvas camera={{ position: [5, 5, 5], fov: 60 }}>

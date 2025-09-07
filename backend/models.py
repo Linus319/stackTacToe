@@ -17,5 +17,40 @@ class Game:
         return True
 
     def check_winner(self, x, y, z) -> bool:
-        # TODO: implement winnning logic
+        player = self.board[x][y][z]
+
+        # Check row along X
+        if all(self.board[i][y][z] == player for i in range(3)):
+            return True
+        # Check column along Y
+        if all(self.board[x][i][z] == player for i in range(3)):
+            return True
+        # Check depth along Z
+        if all(self.board[x][y][i] == player for i in range(3)):
+            return True
+
+        # Check diagonals on planes if on them
+        if x == y and all(self.board[i][i][z] == player for i in range(3)):
+            return True
+        if x + y == 2 and all(self.board[i][2-i][z] == player for i in range(3)):
+            return True
+        if x == z and all(self.board[i][y][i] == player for i in range(3)):
+            return True
+        if x + z == 2 and all(self.board[i][y][2-i] == player for i in range(3)):
+            return True
+        if y == z and all(self.board[x][i][i] == player for i in range(3)):
+            return True
+        if y + z == 2 and all(self.board[x][i][2-i] == player for i in range(3)):
+            return True
+
+        # # Check space diagonals
+        # if (x == y == z) and all(self.board[i][i][i] == player for i in range(3)):
+        #     return True
+        # if (x + y + z == 6) and all(self.board[i][2-i][2-i] == player for i in range(3)):
+        #     return True
+        # if (x == y and x + z == 2) and all(self.board[i][i][2-i] == player for i in range(3)):
+        #     return True
+        # if (x + y == 2 and x == z) and all(self.board[i][2-i][i] == player for i in range(3)):
+        #     return True
+
         return False
