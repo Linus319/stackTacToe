@@ -56,16 +56,33 @@ class Game:
 
         return False
 
+    def is_winning_move(self, player, x, y, z):
+        self.board[x][y][z] = player # temporarily place the player's mark
+        win = self.check_winner(x, y, z)
+        self.board[x][y][z] = None  # undo
+        return win
+
     def robot_move(self):
-        moves = [(x, y, z)
+        empty_cells = [(x, y, z)
                     for x in range(3)
                     for y in range(3)
                     for z in range(3)
                     if self.board[x][y][z] is None]
 
-        if not moves:
+        if not empty_cells:
             return False
 
-        x, y, z = random.choice(moves)
+        for x, y, z in empty_cells: # check if robot should play winning move
+            if self.is_winning_move('O', x, y, z):
+                self.make_move(x, y, z)
+                return True
+
+        for x, y, z in empty_cells: # check if robot should block other player
+            if self.is_winning_move('X', x, y, z):
+                print('blocking move found')
+                self.make_move(x, y, z)
+                return True
+
+        x, y, z = random.choice(empty_cells)
         self.make_move(x, y, z)
         return True
