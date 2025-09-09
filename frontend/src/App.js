@@ -100,13 +100,25 @@ function App() {
 
   };
 
-  console.log('winner:', winner);
-
   const makeMove = async (x, y, z) => {
     if (!gameId || winner) return;
     try {
       await axios.post(`${API_BASE}/game/${gameId}/move`, { x, y, z });
       await fetchGameState(gameId);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const newGame = async () => {
+    try {
+      const res = await axios.post(`${API_BASE}/game/new`);
+      console.log('Response:', res);
+      const newId = res.data.gameId;
+      setGameId(newId);
+      const game_state = await fetchGameState(newId);
+      console.log("Game state:", game_state);
+      setWinner(null);
     } catch (err) {
       console.error(err);
     }
@@ -127,6 +139,7 @@ function App() {
         <h3>StackTacToe</h3>
         <p>Backend: {backendStatus}</p>
         {winner ? <p>🎉 Winner: {winner === 'X' ? "Red" : "Blue"}</p> : <p>Current Player: {currentPlayer}</p>}
+        <button onClick={newGame}>New Game</button>
       </div>
 
       <Canvas camera={{ position: [5, 5, 5], fov: 60 }}>

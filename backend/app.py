@@ -36,7 +36,7 @@ def get_game_state(game_id):
     })
 
 @app.route('/api/game/<game_id>/move', methods=['POST'])
-def make_move(game_id):
+def player_move(game_id):
     game = games.get(game_id)
     if not game:
         return jsonify({"error": "Game not found"}), 404
@@ -50,6 +50,9 @@ def make_move(game_id):
     success = game.make_move(x, y, z)
     if not success:
         return jsonify({"error": "Invalid move"}), 400
+
+    if not game.winner and game.current_player == 'O':
+        game.robot_move()
 
     return jsonify({
         "success": True,

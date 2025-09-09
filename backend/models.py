@@ -1,4 +1,5 @@
 from typing import List, Optional
+import random
 
 class Game:
     def __init__(self):
@@ -43,14 +44,28 @@ class Game:
         if y + z == 2 and all(self.board[x][i][2-i] == player for i in range(3)):
             return True
 
-        # # Check space diagonals
-        # if (x == y == z) and all(self.board[i][i][i] == player for i in range(3)):
-        #     return True
-        # if (x + y + z == 6) and all(self.board[i][2-i][2-i] == player for i in range(3)):
-        #     return True
-        # if (x == y and x + z == 2) and all(self.board[i][i][2-i] == player for i in range(3)):
-        #     return True
-        # if (x + y == 2 and x == z) and all(self.board[i][2-i][i] == player for i in range(3)):
-        #     return True
+        # Check space diagonals
+        if (x == y == z) and all(self.board[i][i][i] == player for i in range(3)):
+            return True
+        if (x + y + z == 6) and all(self.board[i][2-i][2-i] == player for i in range(3)):
+            return True
+        if (x == y and x + z == 2) and all(self.board[i][i][2-i] == player for i in range(3)):
+            return True
+        if (x + y == 2 and x == z) and all(self.board[i][2-i][i] == player for i in range(3)):
+            return True
 
         return False
+
+    def robot_move(self):
+        moves = [(x, y, z)
+                    for x in range(3)
+                    for y in range(3)
+                    for z in range(3)
+                    if self.board[x][y][z] is None]
+
+        if not moves:
+            return False
+
+        x, y, z = random.choice(moves)
+        self.make_move(x, y, z)
+        return True
