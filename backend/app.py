@@ -11,11 +11,11 @@ load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins=["http://localhost:3001", "http://127.0.0.1:3001", "http://192.168.1.141:3001"], allow_credentials=True)
 
 games = {}
 short_code_mapping = {}
-player_sessions = {} # maps sid -> (game_id, role)
+player_sessions = {} # sid: (game_id, role)
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
@@ -31,7 +31,7 @@ def new_game():
 
     game = Game()
 
-    sid = request.sid if hasattr(request, 'sid') else None # sid might not exist in http
+    sid = request.sid if hasattr(request, 'sid') else None 
     if game_type == 'single':
         game.player_x = sid or request.remote_addr # human
         game.player_o = 'robot'
