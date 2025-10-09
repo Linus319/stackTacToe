@@ -12,11 +12,12 @@ Add screenshot here.
 ## Tech Stack
 ### Frontend
 - React
-- ...
+- Three.js
+- Jest
 
 ### Backend
 - Python + Flask
-- ...
+- Flask SocketIO
 
 ## Getting Started
 Prerequisites:
@@ -26,14 +27,21 @@ Prerequisites:
 
 Local Setup:
 1. Clone the repository
-`commands here`
+`git clone https://github.com/Linus319/stackTacToe.git`
 2. Backend Setup (Flask)
-`commands here`
+```
+cd stackTacToe/backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 3. Frontend Setup (React)
-`commands here`
+```
+cd stackTacToe/fontend
+npm run start
+```
 
 ## API Endpoints
-- Health Check: `GET /api/health → { status: "healthy" }`
 - Create Game: `POST /api/game/new → { gameId, joinCode }`
 - Join Game: `POST /api/game/join with { code }`
 - Make Move: `POST /api/game/<gameId>/move with { x, y, z }`
@@ -42,10 +50,6 @@ Local Setup:
 ## Deployment
 
 Local: run Flask + React dev servers as above.
-Docker (optional): Create a Dockerfile for backend + frontend, then run: `commands here`
-
-## Screenshots
-Add some screenshots or GIFs of gameplay here.
 
 ## Future Improvements
 - Add authentication (user accounts).
